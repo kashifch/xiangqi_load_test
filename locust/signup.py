@@ -1,6 +1,4 @@
 import json
-from base import Base
-from config import SEARCH_FLIGHT_URL
 
 
 class SignUpPage(object):
@@ -38,11 +36,13 @@ class SignUpPage(object):
         """
         url = u'/signup'
         default_headers = {
+            'Host': 'api.xiangqi.arbisoft.com'
             'Accept': '*/*',
             'Accept-Language': 'en-US,en;q=0.5',
             'Accept-Encoding': 'gzip, deflate',
             'Content-Type': 'application/json',
             'Referer': 'http://xiangqi.arbisoft.com/signup'
+            'origin': 'http://xiangqi.arbisoft.com'
         }
         params = {"username": u_name,"email":u_email,"password":u_pwd,"country_id":u_country,"locale":"en"}
         r = self.client.post(url=url, headers=default_headers, data=params, verify=False)
