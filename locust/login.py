@@ -1,7 +1,7 @@
 import json
 
 
-class SignUpPage(object):
+class Login(object):
 
     """
     Course page Class
@@ -26,11 +26,13 @@ class SignUpPage(object):
                 str(response.status_code)
             )
 
-    def u_signup(self, u_name, u_email, u_pwd, u_country):
+    def login(self, u_email, u_password):
         """
-        Signup
+        Login to Xiangqi
+        :param u_email: User Email
+        :param u_password:   User Password
         """
-        url = u'http://api.xiangqi.arbisoft.com/api/users/signup'
+        url = u'http://api.xiangqi.arbisoft.com/api/users/signin'
         default_headers = {
             'Host': 'api.xiangqi.arbisoft.com',
             'Accept': '*/*',
@@ -40,26 +42,7 @@ class SignUpPage(object):
             'Referer': 'http://xiangqi.arbisoft.com/signup',
             'origin': 'http://xiangqi.arbisoft.com'
         }
-        params = {"username": u_name,"email":u_email,"password":u_pwd,"country_id":u_country,"locale":"en"}
+        params = {"email": u_email, "password": u_password, "locale": "en"}
         r = self.client.post(url=url, headers=default_headers, data=json.dumps(params), verify=False)
         self._check_response(r)
-        return r
-
-    def options(self):
-        """
-        Options request after sign-up POST
-        """
-        url = u'http://api.xiangqi.arbisoft.com/api/users/signup'
-        default_headers = {
-            'Host': 'api.xiangqi.arbisoft.com',
-            'Accept': '*/*',
-            'Accept-Language': 'en-US,en;q=0.5',
-            'Accept-Encoding': 'gzip, deflate',
-            'Content-Type': 'application/json',
-            'Referer': 'http://xiangqi.arbisoft.com/signup',
-            'origin': 'http://xiangqi.arbisoft.com'
-        }
-        # params = {"username": u_name, "email": u_email, "password": u_pwd, "country_id": u_country, "locale": "en"}
-        r = self.client.options(url=url, headers=default_headers, verify=False)
-        self._check_response(r)
-        return r
+        return json.loads(r.content)['access_token']
