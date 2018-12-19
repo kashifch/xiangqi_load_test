@@ -40,21 +40,31 @@ class SignUpTasks(TaskSet):
         """
         Login to Xiangqi
         """
-        self.credentials = random.choice(self.usernames)
-        # Login and return access token
-        self.token = self.user_login.login(self.credentials, '123')
-        # Get request after the login to get the cookie
-        self.cookie = self.socket_get.socket_get_cookie(self.token)
+        self.username = 'test_{}'.format(str(uuid.uuid4().node))
+        self.email = "{}@arbisoft.com".format(self.username)
 
-    def signup_task(self):
-        """
-        View the pages repeatedly
-        """
-        # username = 'test_{}'.format(str(uuid.uuid4().node))
-        username = 'awais.khan+{}'.format(random.randint(1, 10))
-        email = "{}@arbisoft.com".format(username)
         self.user_signup.options()
         self.user_signup.u_signup(self.username, self.email, '123', 226)
+
+        self.token = self.user_login.login(self.email, '123')
+        self.cookie = self.socket_get.socket_get_cookie(self.token)
+
+        # self.credentials = random.choice(self.usernames)
+        # # Login and return access token
+        # self.token = self.user_login.login(self.credentials, '123')
+        # # Get request after the login to get the cookie
+        # self.cookie = self.socket_get.socket_get_cookie(self.token)
+
+    # @task(5)
+    # def signup_task(self):
+    #     """
+    #     View the pages repeatedly
+    #     """
+    #     username = 'test_{}'.format(str(uuid.uuid4().node))
+    #     # username = 'testuser+{}'.format(random.randint(1, 5))
+    #     email = "{}@arbisoft.com".format(username)
+    #     self.user_signup.options()
+    #     self.user_signup.u_signup(username, email, '123', 226)
 
     @task(20)
     def socket_post_request(self):
